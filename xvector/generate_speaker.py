@@ -22,7 +22,7 @@ for sub_wav_dir in glob.glob(wav_dir+'/*'):
 	for wav_path in glob.glob(sub_wav_dir+'/*'):
 		wav_name = os.path.split(wav_path)[-1]
 		wave_name, wav_type = wav_name.split('.')
-		if wav_type in ['wav', 'sph', 'flac']: output.write("%s %s\n" %(wav_path, speaker))
+		if wav_type in ['wav', 'sph', 'flac']: output.write("%s %s %s\n" %(wav_path, speaker, wav_name))
 output.close()
 
 
