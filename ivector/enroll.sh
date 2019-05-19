@@ -18,7 +18,7 @@
 . ./cmd.sh
 . ./path.sh
 set -e
-
+<<'COUNT'
 if [ $# != 1 ] ; then 
 	echo "USAGE: $0 wav_path" 
 	echo " e.g.: $0 ./wav" 
@@ -28,7 +28,7 @@ fi
 if [ -d "./data" ];then
 	rm -rf ./data
 fi
-
+COUNT
 #wavdir=`pwd`/wav
 wavdir=$1
 datadir=`pwd`/data
@@ -42,7 +42,7 @@ FIXDATA=1
 FeatureForMfcc=1
 VAD=1
 EXTRACT=1
-
+<<'COUNT'
 if [ $DataPre -eq 1 ]; then
 	echo ==========================================
 	echo "get utt2spk, DataPre start on" `date`
@@ -64,7 +64,7 @@ if [ $FIXDATA -eq 1 ]; then
 	echo ====== fix_data_dir finished successfully `date` ==========
  fi
 
-
+COUNT
 if [ $FeatureForMfcc -eq 1 ]; then
 	 echo ==========================================
 	 echo "FeatureForSpeaker start on" `date`
