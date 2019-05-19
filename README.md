@@ -54,7 +54,8 @@ ln -s $KALDI_ROOT/egs/sre16/v2/utils ./
 ### Step 1: Extract ivector and xvector
 
 Refers to [pre-trained xvector model in kaldi](http://www.kaldi-asr.org/models/m3) and [kaidi-sre-code](https://github.com/kaldi-asr/kaldi/tree/master/egs/sre16)
-
+- first:  generate utt2spk wav.scp--and sort them to `data/`
+- second use utt2spk.pl  to generate spk2utt
 - Extract ivector: cd `ivector` and run `enroll.sh` to extract ivector
 
 ```sh
