@@ -1,9 +1,9 @@
 # Summary of Kaldi for ivector and xvector
 
 ## model
-for 16k wav model, u should use kaldi/egs/voxceleb/
-v1 for ivector
-v2 for xvector
+for 16k wav model, u should use kaldi/egs/voxceleb/ \
+v1 for ivector\
+v2 for xvector\
 download the model from http://www.kaldi-asr.org/models/m7
 
 
