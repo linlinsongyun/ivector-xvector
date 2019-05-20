@@ -62,9 +62,9 @@ ln -s $KALDI_ROOT/egs/sre16/v2/utils ./
 ### Step 1: Extract ivector and xvector
 
 Refers to [pre-trained xvector model in kaldi](http://www.kaldi-asr.org/models/m3) and [kaidi-sre-code](https://github.com/kaldi-asr/kaldi/tree/master/egs/sre16)
-- first:  use 01.py to generate utt2spk wav.scp--and sort them to `data/`
-exp:`python 01.py source_dir` source_dir/wav_dir/mm.wav
-make sure the data folder  is new make
+- first:  use 01.py to generate utt2spk wav.scp--and sort them to `data/`\
+exp:`python 01.py source_dir` source_dir/wav_dir/mm.wav\
+make sure the data folder  is new make\
 
 - second generate spk2utt
 exp:`kaldi-master/egs/timit/s5/utils/utt2spk_to_spk2utt.pl utt2spk > spk2utt`
