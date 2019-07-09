@@ -52,7 +52,8 @@ datadir=`pwd`/data
 logdir=`pwd`/data/log
 featdir=`pwd`/data/feat
 nnet_dir=`pwd`/exp/xvector_nnet_1a
-
+DOLDA=1
+plda=1
 . parse_options.sh || exit 1;
 
 if [ $DataPre -eq 1 ]; then
@@ -124,3 +125,15 @@ if [ $EXTRACT -eq 1 ]; then
 	
 	echo ========= EXTRACT just for testing `date`=============
 fi   
+
+if [ $plda -le 8 ]; then
+    echo ==========================================
+    echo "transform and nor-length" `date`
+    echo ==========================================
+    #do lda with spk_vec.ark
+    $train_cmd data/log/lda/transform.log \
+    transform-vec exp/xvector_nnet_1a/xvectors_train/transform.mat ark:data/enroll/feat/xvectors_enroll_mfcc/spk_xvector.ark ark:- |  ivector-normalize-length  ark:- ark:data/enroll/feat/xvectors_enroll_mfcc/spk_xvector_trans_nor.ark
+    echo ========== lda ended ===============
+    copy-vector ark:data/enroll/feat/xvectors_enroll_mfcc/spk_xvector_trans_nor.ark ark,t:- >data/enroll/feat/xvectors_enroll_mfcc/spk_xvector_tran-nor.txt
+    echo ============ ark2txt end ===============
+fi
