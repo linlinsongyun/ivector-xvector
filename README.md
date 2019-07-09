@@ -145,3 +145,6 @@ Main stream: xvector->mean->transform(LDA)->len normalize->classifier(PLDA/adapt
 echo '1 2 3' |awk '{print $3}'  # print 3
 ```
 
+# python vec2txt.py xx.txt save_dir
+讲txt中各个的vector单独写出来，保存成一个文件
+
