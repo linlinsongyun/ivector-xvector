@@ -1,0 +1,3 @@
+# python gen_spk.py data_dir output.txt
+data_dir: 给到utt10，其中包含 utt01/nor-p275/wav/*.wav
+具体看文件说明
