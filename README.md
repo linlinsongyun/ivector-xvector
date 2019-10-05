@@ -1,12 +1,11 @@
-# Summary of Kaldi for ivector and xvector
-
-## model
+# 下载训练好的模型
 for 16k wav model, u should use kaldi/egs/voxceleb/ \
 v1 for ivector\
 v2 for xvector\
 download the model from http://www.kaldi-asr.org/models/m7
 
-
+### x-vector 提取过程
+修改path.sh的kaldi路径
 
 ## Files List
 
