@@ -1,11 +1,89 @@
 # 下载训练好的模型
 for 16k wav model, u should use kaldi/egs/voxceleb/ \
 v1 for ivector\
-v2 for xvector\
+v2 for xvector 其中exp中的文件单独挪出来，放在xvector的目录下，方便直接调用
 download the model from http://www.kaldi-asr.org/models/m7
 
+## 准备过程
+1. 提取wav的txt文件  其中wav_dir = name/wav/**.wav
+```
+python generate_speaker.py wav_dir save_txt
+```
+2.提取wav.scp utt2spk(注意当前目录下不能有同名文件，否则是接着写而不是覆盖）
+`python 01.py wav_dir`
+3. 顺序排列在data文件夹下（enroll.sh默认读取的路径，初始不存在）
+```
+sort wav.scp >>data/wav.scp
+sort utt2spk >>data/utt2spk
+perl kaldi/egs/timit/s5/utils/utt2spk_to_spk2utt.pl utt2spk > spk2utt
+```
+
 ### x-vector 提取过程
-修改path.sh的kaldi路径
+1. 修改path.sh的kaldi路径,软连接ln ** 打开
+2. 检查conf对应的文件是否是16khz，可以copy kaldi voxcelb的
+3. 提取x-vector
+
+case1: 不区分说话人
+`bash enroll.sh speaker.txt 1`
+
+case2: 区分说话人
+`bash enroll.sh speaker.txt 2`
+
+4. 单句的xvector变成单人的xvector
+
+```
+transform-vec exp/xvector_nnet_1a/xvectors_train/transform.mat ark:data/feat/xvectors_enroll_mfcc/spk_xvector.ark ark:- | ivector-normalize-length ark:- ark:vctk10-spk-xvec.ark
+```
+2. ark文件转成txt文件
+```
+ copy-vector ark:xvec-spk-tranfrom-nor.ark ark,t:- >xvec-spk-tranfrom-nor.txt
+```
+ 3. 转成模型训练可用的vector-npy
+ ```
+python ../vec2npy.py vecror.txt save_dir
+ ```
+
+###### 4的分解步骤
+
+
+ - dir ---`exp/xvector_nnet_1a/xvectors_train/transform.mat`
+ - lda分析降维
+ `transform-vec exp/xvector_nnet_1a/xvectors_train/transform.mat ark:data/feat/xvectors_enroll_mfcc/spk_xvector.ark ark:xvec-spk-tranfrom.ark`
+ - 做norm-length
+```
+ ivector-normalize-length ark:xvec-spk-tranfrom.ark ark:xvec-spk-tranfrom-nor.ark
+```
+
+` ivector-normalize-length`在`kaldi/src/ivectorbin`路径下
+
+
+
+### debug
+
+1.维度不匹配
+
+```
+ERROR (nnet3-xvector-compute[5.4.198~1-be7c1]:AcceptInput():nnet-compute.cc:556) Num-cols mismatch for input 'input': 30 in computation-request, 23 provided.
+```
+在提x-vector的步骤报错，检查conf文件的是否正确，需要的是16khz的配置
+
+2.报错 parse_option找不到
+
+```
+. parse_options.sh || exit 1;
+```
+path路径的软连接释放， 在utils/parse_option.sh
+
+3. 
+`nnet3-xvector-compute: error while loading shared libraries: libcudart.so.9.0: cannot open shared object file: No such file or directory`
+
+把对应的cuda lib路径加在bashrc中，source ～/.bashrc更新一下
+```
+export PATH=$PATH:/usr/local/cuda-8.0/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-8.0/lib64
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/cuda-8.0/lib64
+```
+
 
 ## Files List
 
@@ -58,38 +136,7 @@ ln -s $KALDI_ROOT/egs/sre16/v2/sid ./
 ln -s $KALDI_ROOT/egs/sre16/v2/utils ./
 ```
 
-### Step 1: Extract ivector and xvector
 
-Refers to [pre-trained xvector model in kaldi](http://www.kaldi-asr.org/models/m3) and [kaidi-sre-code](https://github.com/kaldi-asr/kaldi/tree/master/egs/sre16)
-- first:  use 01.py to generate utt2spk wav.scp--and sort them to `data/`\
-exp:`python 01.py source_dir` source_dir/wav_dir/mm.wav\
-make sure the data folder  is new make\
-
-- second generate spk2utt
-exp:`kaldi-master/egs/timit/s5/utils/utt2spk_to_spk2utt.pl utt2spk > spk2utt`
-- Extract ivector: cd `ivector` and run `enroll.sh` to extract ivector
-
-```sh
-bash enroll.sh wav_path
-# for example: bash enroll.sh ./wav
-```
-
-- Extract xvector: cd `xvector` and run `enroll.sh` to extract ivector
-
-```sh
-## Case 1: extract xvector without speaker infos
-#          for example: bash enroll.sh ./wav 1
-bash enroll.sh wav_path 1
-
-## Case 2: extract xvector with speaker infos
-####Step 1: Generate speaker.txt files
-####Only suitable for files like 'wav_root/speaker_id/wav_name'
-####Other format, you should write your own generate_speaker.py
-python generate_speaker.py wav_dir speaker.txt
-####Step 2: extract xvector with speaker infos
-####For example, bash enroll.sh ./speaker.txt 2
-bash enroll.sh ./speaker.txt 2
-```
 
 ### Step 2: Read generate ivector and xvector
 
