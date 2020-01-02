@@ -20,8 +20,9 @@ perl kaldi/egs/timit/s5/utils/utt2spk_to_spk2utt.pl utt2spk > spk2utt
 ```
 
 ### x-vector 提取过程
-1. 修改path.sh的kaldi路径,软连接ln ** 打开
+1. 修改path.sh的kaldi路径,  软连接ln ** 打开
 2. 检查conf对应的文件是否是16khz，可以copy kaldi voxcelb的
+3. cp steps utils的文件夹到当前目录
 3. 提取x-vector
 
 case1: 不区分说话人
