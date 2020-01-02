@@ -1,10 +1,12 @@
-# 下载训练好的模型
+# 1. 下载训练好的模型
 for 16k wav model, u should use kaldi/egs/voxceleb/ \
 v1 for ivector\
 v2 for xvector 其中exp中的文件单独挪出来，放在xvector的目录下，方便直接调用
 download the model from http://www.kaldi-asr.org/models/m7
 
-## 准备过程
+替换原目录下的exp/local等文件夹
+
+## 2. 单独准备过程（已省略）
 1. 提取wav的txt文件  其中wav_dir = name/wav/**.wav
 ```
 python generate_speaker.py wav_dir save_txt
@@ -19,12 +21,19 @@ sort utt2spk >>data/utt2spk
 perl kaldi/egs/timit/s5/utils/utt2spk_to_spk2utt.pl utt2spk > spk2utt
 ```
 
-### x-vector 提取过程
+### 3. x-vector 提取过程
 1. 修改path.sh的kaldi路径,  软连接ln ** 打开
 2. 检查conf对应的文件是否是16khz，可以copy kaldi voxcelb的
 3. cp steps utils的文件夹到当前目录
 3. 提取x-vector
+（1）生成wav的txt文件  其中wav_dir = name/wav/**.wav
+```
+python generate_speaker.py wav_dir save_txt
+```
+wav_dir SPK WAV_NAME
 
+
+（2）注意看 make_data_speaker.py的文件读是否正确
 case1: 不区分说话人
 `bash enroll.sh speaker.txt 1`
 
@@ -45,7 +54,7 @@ transform-vec exp/xvector_nnet_1a/xvectors_train/transform.mat ark:data/feat/xve
 python ../vec2npy.py vecror.txt save_dir
  ```
 
-###### 4的分解步骤
+###### 4. 分解步骤
 
 
  - dir ---`exp/xvector_nnet_1a/xvectors_train/transform.mat`
