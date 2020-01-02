@@ -11,6 +11,7 @@ python generate_speaker.py wav_dir save_txt
 ```
 2.提取wav.scp utt2spk(注意当前目录下不能有同名文件，否则是接着写而不是覆盖）
 `python 01.py wav_dir`
+
 3. 顺序排列在data文件夹下（enroll.sh默认读取的路径，初始不存在）
 ```
 sort wav.scp >>data/wav.scp
