@@ -47,7 +47,7 @@ transform-vec exp/xvector_nnet_1a/xvectors_train/transform.mat ark:data/feat/xve
 ```
 2. ark文件转成txt文件
 ```
- copy-vector ark:xvec-spk-tranfrom-nor.ark ark,t:- >xvec-spk-tranfrom-nor.txt
+ /opt/kaldi/src/bin/copy-vector ark:data/feat/xvectors_enroll_mfcc/xvector.1.ark ark,t:- >thu_spk52_utt_xvector.txt
 ```
  3. 转成模型训练可用的vector-npy
  ```
