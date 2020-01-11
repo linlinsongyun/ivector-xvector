@@ -1,3 +1,8 @@
+### 0 准备模型
+exp/vector_nnet_1a下应该有
+extract.config  final.raw  max_chunk_size  min_chunk_size  nnet.config  srand  xvectors_train
+其中xvectors_train是文件夹，里边有
+mean.vec  plda  transform.mat
 ### 1. python gen_trials.py wav_dir en_spk.txt or test_spk.txt
 data_dir:
 会生成txt的文件和trials文件
