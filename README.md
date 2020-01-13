@@ -67,6 +67,14 @@ python ../vec2npy.py vecror.txt save_dir
 
 ` ivector-normalize-length`在`kaldi/src/ivectorbin`路径下
 
+ps.
+如果直接链接不到可执行文件，怎么找路径？
+(1) `cd /opt/kaldi/egs/wsj/s5/`
+(2) `. path.sh`
+(3) `which transform-vec`
+可以得到可执行文件所在的目录
+`/opt/kaldi/egs/wsj/s5/../../../src/bin/transform-vec`
+
 
 
 ### debug
