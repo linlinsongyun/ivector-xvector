@@ -9,7 +9,7 @@ data_dir:
 其中txt包括 wav_path spk
 trials 包括 true_spk compared_utt_id target/nontarget
 ==(utt_id的组成是 spk+'-'+utt_name)==
-### 2. sh enroll.sh en_spk.txt 2
+### 2. sh enroll.sh en_spk.txt 2(with speaker, 1 without speaker)
 生成在data/enroll里边
 包括
 utt2spk utt_id spk (utt_id的组成是 spk+'-'+utt_name)
